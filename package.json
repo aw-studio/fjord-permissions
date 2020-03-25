@@ -1,0 +1,25 @@
+{
+    "name": "fjord-permissions",
+    "version": "0.0.1",
+    "main": "./resources/js/index.js",
+    "keywords": [
+        "fjord",
+        "cms",
+        "fjord-cms",
+        "fjord-permissions"
+    ],
+    "author": [
+        "Jannes Behrens",
+        "Lennart Carstens-Behrens"
+    ],
+    "scripts": {
+
+    },
+    "license": "MIT",
+    "devDependencies": {
+
+    },
+    "dependencies": {
+
+    }
+}
