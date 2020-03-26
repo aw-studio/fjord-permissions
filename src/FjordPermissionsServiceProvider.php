@@ -11,6 +11,9 @@ class FjordPermissionsServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         fjord()->addLangPath(fjord_permissions_path('resources/lang'));
+
+
+        //fjord()->extend('users')->add('tableActions', 'fj-permissions-...');
     }
 
 
@@ -22,11 +25,8 @@ class FjordPermissionsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register('AwStudio\FjordPermissions\RouteServiceProvider');
-        /*
-        fjord()->package('aw-studio/fjord-permissions')->setProps([
 
-        ]);
-        */
+        fjord()->composer(FjordPermissionsComposer::class);
     }
 
 

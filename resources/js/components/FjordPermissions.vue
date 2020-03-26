@@ -1,6 +1,8 @@
 <template>
     <fj-base-container>
-        <fj-base-header :title="$t('fj.permissions')"> </fj-base-header>
+        <fj-base-header :title="$t('fj.permissions')">
+
+        </fj-base-header>
         <b-card no-body>
             <b-tabs card>
                 <b-tab
