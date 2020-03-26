@@ -32,7 +32,7 @@ class RouteServiceProvider extends LaravelRouteServiceProvider
             ->get('/permissions', PermissionController::class . '@index')
             ->name('permissions');
 
-        $this->package->extendable($route);
+        $this->package->extendable($route, ['buttons']);
 
         $this->package->route()
             ->put('/role_permissions', PermissionController::class . '@update')
