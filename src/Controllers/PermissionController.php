@@ -18,7 +18,7 @@ class PermissionController extends Controller
             ->withProps([
                 'roles' => Role::all(),
                 'permissions' => Permission::all(),
-                'role_permissions' => RolePermission::all()
+                'role_permissions' => RolePermission::all(),
             ]);
     }
 

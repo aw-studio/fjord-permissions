@@ -84,6 +84,9 @@ export default {
         },
         role_permissions: {
             type: Array
+        },
+        buttons: {
+            type: Array
         }
     },
     data() {
@@ -148,7 +151,7 @@ export default {
                 role,
                 permission
             };
-            let respose = await axios.put('/role_permissions', payload);
+            let respose = await axios.put('aw-studio/fjord-permissions/role_permissions', payload);
 
             this.$bvToast.toast(
                 this.$t('fj.permission_updated', {

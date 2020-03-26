@@ -2,12 +2,20 @@
 
 namespace AwStudio\FjordPermissions;
 
-use AwStudio\Fjord\Support\Facades\FjordRoute;
+use AwStudio\Fjord\Support\Facades\Fjord;
 use App\Providers\RouteServiceProvider as LaravelRouteServiceProvider;
 use AwStudio\FjordPermissions\Controllers\PermissionController;
 
 class RouteServiceProvider extends LaravelRouteServiceProvider
 {
+    protected $package;
+
+    public function __construct($app)
+    {
+        $this->package = fjord()->package('aw-studio/fjord-permissions');
+        parent::__construct($app);
+    }
+
     public function boot()
     {
         parent::boot();
@@ -20,7 +28,14 @@ class RouteServiceProvider extends LaravelRouteServiceProvider
 
     protected function mapRolePermissionRoutes()
     {
-        FjordRoute::get('/fjord/permissions', PermissionController::class . '@index')->name('permissions');
-        FjordRoute::put('/role_permissions', PermissionController::class . '@update')->name('role_permissions.update');
+        $route = $this->package->route()
+            ->get('/permissions', PermissionController::class . '@index')
+            ->name('permissions');
+
+        $this->package->extendable($route);
+
+        $this->package->route()
+            ->put('/role_permissions', PermissionController::class . '@update')
+            ->name('role_permissions.update');
     }
 }
