@@ -5,6 +5,7 @@ namespace AwStudio\FjordPermissions;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use AwStudio\Fjord\Support\Facades\FjordRoute;
+use AwStudio\FjordPermissions\Extensions\FjordPermissionsExtension;
 
 class FjordPermissionsServiceProvider extends ServiceProvider
 {
@@ -26,10 +27,8 @@ class FjordPermissionsServiceProvider extends ServiceProvider
     {
         $this->app->register('AwStudio\FjordPermissions\RouteServiceProvider');
 
-        fjord()->composer(FjordPermissionsComposer::class);
+        fjord()->extension(FjordPermissionsExtension::class);
     }
-
-
 
     protected function publish()
     {

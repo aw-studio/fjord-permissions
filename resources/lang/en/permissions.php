@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "user" => "User",
+    "users" => "User",
     "user-roles" => 'User Roles',
     "role-permissions" => "Role Permissions"
 ];
