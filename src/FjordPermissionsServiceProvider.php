@@ -28,6 +28,10 @@ class FjordPermissionsServiceProvider extends ServiceProvider
         $this->app->register('AwStudio\FjordPermissions\RouteServiceProvider');
 
         fjord()->extension(FjordPermissionsExtension::class);
+
+        fjord()
+            ->package('aw-studio/fjord-permissions')
+            ->configCompiler('table', Config\TableConfig::class);
     }
 
     protected function publish()

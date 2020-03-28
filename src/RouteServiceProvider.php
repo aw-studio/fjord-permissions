@@ -35,6 +35,10 @@ class RouteServiceProvider extends LaravelRouteServiceProvider
         $this->package->extendable($route, ['buttons']);
 
         $this->package->route()
+            ->post('/index', PermissionController::class . '@fetchIndex')
+            ->name('permissions.index');
+
+        $this->package->route()
             ->put('/role_permissions', PermissionController::class . '@update')
             ->name('role_permissions.update');
     }

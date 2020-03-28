@@ -3,6 +3,25 @@
         <fj-base-header :title="$t('fj.permissions')">
 
         </fj-base-header>
+
+        <b-row>
+            <b-col>
+                <fj-index-table
+                    :cols="cols"
+                    :items="permissions"
+                    :count="count"
+                    :loadItems="loadPermissions"
+                    :searchKeys="['name']"
+                    :nameSingular="$t('fj.permissions')"
+                    :namePlural="$t('fj.permissions')"
+                    :sortBy="config.sortBy"
+                    :sortByDefault="config.sortByDefault"
+                    :filter="config.filter"
+                    :globalActions="config.globalActions"/>
+            </b-col>
+        </b-row>
+
+        <!--
         <b-card no-body>
             <b-tabs card>
                 <b-tab
@@ -71,6 +90,7 @@
                 </b-tab>
             </b-tabs>
         </b-card>
+        -->
     </fj-base-container>
 </template>
 
@@ -78,10 +98,15 @@
 export default {
     name: 'FjordPermissions',
     props: {
-        roles: {
-            type: Array
+        cols: {
+            type: Array,
+            required: true
         },
-        permissions: {
+        operations: {
+            type: Array,
+            required: true
+        },
+        roles: {
             type: Array
         },
         role_permissions: {
@@ -89,10 +114,16 @@ export default {
         },
         buttons: {
             type: Array
-        }
+        },
+        config: {
+            type: Object,
+            required: true
+        },
     },
     data() {
         return {
+            count: 0,
+            permissions: [],
             update: {
                 updater: null
             },
@@ -101,6 +132,10 @@ export default {
         };
     },
     beforeMount() {
+        this.$store.commit('SET_FJ_PERMISSIONS_ROLE', this.roles[0])
+        this.$store.commit('SET_FJ_PERMISSIONS_OPERATIONS', this.operations)
+        this.$store.commit('SET_FJ_PERMISSIONS_ROLE_PERMISSIONS', this.role_permissions)
+
         for (var i = 0; i < this.roles.length; i++) {
             let role = this.roles[i];
             this.roles_permissions[role.name] = {};
@@ -113,6 +148,13 @@ export default {
         }
     },
     methods: {
+        async loadPermissions(payload) {
+            let response = await axios.post('aw-studio/fjord-permissions/index', payload)
+            this.permissions = response.data.unique_items
+            this.count = response.data.count
+
+            this.$store.commit('SET_FJ_PERMISSIONS_PERMISSIONS', response.data.items)
+        },
         role_permission_groups(role) {
             let keys = Object.keys(this.roles_permissions[role.name]).map(
                 key => {
@@ -131,16 +173,7 @@ export default {
 
             return _.uniq(keys);
         },
-        roleHasPermission(role, permission) {
-            return (
-                _.size(
-                    _.filter(this.role_permissions, {
-                        role_id: role.id,
-                        permission_id: permission.id
-                    })
-                ) > 0
-            );
-        },
+
         async togglePermission(role, operation, group) {
             let permission_name = `${operation} ${group}`;
 
@@ -165,23 +198,6 @@ export default {
                 }
             );
         },
-        toggleAll(role, group) {
-            for (
-                var i = 0;
-                i < this.role_permission_operations(role).length;
-                i++
-            ) {
-                let operation = this.role_permission_operations(role)[i];
-
-                let key = `${operation} ${group}`;
-                this.$set(
-                    this.roles_permissions[role.name],
-                    key,
-                    !this.roles_permissions[role.name][key]
-                );
-                this.$set(this.update, 'updater', key);
-            }
-        }
     }
 };
 </script>
