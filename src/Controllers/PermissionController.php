@@ -10,15 +10,15 @@ use Spatie\Permission\Models\Permission;
 use AwStudio\FjordPermissions\Models\RolePermission;
 use AwStudio\FjordPermissions\Requests\UpdateRolePermissionRequest;
 use AwStudio\FjordPermissions\Requests\IndexRolePermissionRequest;
-use AwStudio\Fjord\Fjord\Application\IndexTable;
+use AwStudio\Fjord\Support\IndexTable;
+use AwStudio\Fjord\Support\Facades\Package;
 
 class PermissionController extends Controller
 {
     public function index(IndexRolePermissionRequest $request)
     {
-        $config = fjord()
-            ->package('aw-studio/fjord-permissions')
-            ->config('table');
+        $config = Package::config('aw-studio/fjord-permissions', 'table');
+        $config = Package::get('aw-studio/fjord-permissions')->config('table');
 
         return view('fjord::app')->withComponent('fjord-permissions')
             ->withTitle('Permissions')
@@ -26,7 +26,6 @@ class PermissionController extends Controller
                 'cols' => $this->getCols(),
                 'roles' => Role::all(),
                 'operations' => $this->getUniqueOperations(),
-                //'permissions' => Permission::all(),
                 'role_permissions' => RolePermission::all(),
                 'config' => $config
             ]);
@@ -45,7 +44,8 @@ class PermissionController extends Controller
         $cols = [
             [
                 'key' => '{name}',
-                'label' => 'Name'
+                'label' => 'Name',
+                'component' => 'fjord-permissions-show-name'
             ]
         ];
 

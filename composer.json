@@ -26,9 +26,7 @@
     },
     "extra": {
         "fjord": {
-            "providers": [
-                "AwStudio\\FjordPermissions\\FjordPermissionsServiceProvider"
-            ]
+            "package": "AwStudio\\FjordPermissions\\Package"
         }
     }
 }

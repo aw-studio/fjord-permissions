@@ -1,0 +1,27 @@
+<template>
+    <span>
+        {{ $t(`permissions.${group}`) }}
+    </span>
+</template>
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+    name: 'FjordPermissionsShowName',
+    props: {
+        item: {
+            required: true,
+            type: [Object, Array]
+        },
+        col: {
+            required: true,
+            type: Object
+        }
+    },
+    computed: {
+        group() {
+            return this.item.name.split(' ').slice(1).join(' ')
+        },
+    }
+}
+</script>
