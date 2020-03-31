@@ -26,7 +26,8 @@ class RouteServiceProvider extends LaravelRouteServiceProvider
 
     protected function mapRolePermissionRoutes()
     {
-        $this->package->route()
+        
+        $route = $this->package->route()
             ->get('/permissions', PermissionController::class . '@index')
             ->name('permissions');
 

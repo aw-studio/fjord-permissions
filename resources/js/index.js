@@ -8,13 +8,7 @@ export default {
     store: {
         permissions
     },
-    props: {
-        permissions: {
-            required: true,
-            type: Array
-        }
-    },
     beforeMount(app) {
         app.$store.commit('SET_PERMISSIONS', app.$attrs.permissions);
-    }
+    },
 };

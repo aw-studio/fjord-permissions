@@ -70,7 +70,6 @@ class PermissionController extends Controller
     {
         $data = IndexTable::get(Permission::query(), $request);
 
-
         $data['unique_items'] = $data['items']->unique(function($item) {
             $name = str_replace($this->getUniqueOperations()->toArray(), '',$item->name);
             return Str::replaceFirst(' ', '', $name);

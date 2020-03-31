@@ -5,7 +5,7 @@ namespace AwStudio\FjordPermissions;
 use AwStudio\Fjord\Application\Package\FjordPackage;
 
 class Package extends FjordPackage
-{   
+{
     /**
      * List of service providers to be registered for this package.
      * 
@@ -21,7 +21,7 @@ class Package extends FjordPackage
      * @var array
      */
     protected $components = [
-       // 'fj-permissions' => PermissionsComponent::class
+        // 'fj-permissions' => PermissionsComponent::class
     ];
 
     /**
@@ -29,7 +29,7 @@ class Package extends FjordPackage
      * 
      * @var array
      */
-    protected $configFiles = [
+    protected $configHandler = [
         'table' => \AwStudio\FjordPermissions\Config\TableConfig::class
     ];
 }
