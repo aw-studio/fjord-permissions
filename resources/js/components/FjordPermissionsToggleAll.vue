@@ -1,78 +1,89 @@
 <template>
-    <div>
-        <b-button
-            variant="secondary"
-            size="sm"
-            @click="toggle">
-            {{ $t('fj.toggle_all') }}
-        </b-button>
-    </div>
+	<div>
+		<b-button variant="secondary" size="sm" @click="toggle">
+			{{ $t('fj.toggle_all') }}
+		</b-button>
+	</div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
-    name: 'FjordPermissionsToggleAll',
-    props: {
-        item: {
-            required: true,
-            type: [Object, Array]
-        },
-        col: {
-            required: true,
-            type: Object
-        }
-    },
-    methods: {
-        toggle() {
+	name: 'FjordPermissionsToggleAll',
+	props: {
+		item: {
+			required: true,
+			type: [Object, Array]
+		},
+		col: {
+			required: true,
+			type: Object
+		}
+	},
+	methods: {
+		toggle() {
+			let count = 0;
+			for (let i = 0; i < this.fjPermissionsOperations.length; i++) {
+				let operation = this.fjPermissionsOperations[i];
+				if (this.roleHasPermission(operation)) {
+					count++;
+				}
+			}
+			console.log(count, this.fjPermissionsOperations.length / 2);
+			// toggle on if half or more of the operations are off
+			let on = count <= this.fjPermissionsOperations.length / 2;
 
-            let count = 0
-            for(let i=0;i<this.fjPermissionsOperations.length;i++) {
-                let operation = this.fjPermissionsOperations[i]
-                if(this.roleHasPermission(operation)) {
-                    count++;
-                }
-            }
-            console.log(count, (this.fjPermissionsOperations.length / 2))
-            // toggle on if half or more of the operations are off
-            let on = count <= (this.fjPermissionsOperations.length / 2)
+			this.$bus.$emit('fjPermissionsToggleAll', {
+				on,
+				group: this.group
+			});
 
-            this.$bus.$emit('fjPermissionsToggleAll', {on, group: this.group});
-        },
-        roleHasPermission(operation) {
-            let permission = this.getPermission(operation)
+			this.$bvToast.toast(
+				this.$t('fj.all_permission_updated', {
+					group: this.$t(`permissions.${this.group}`)
+				}),
+				{
+					variant: 'success'
+				}
+			);
+		},
+		roleHasPermission(operation) {
+			let permission = this.getPermission(operation);
 
-            if(!permission) {
-                return false
-            }
-            return (
-                _.size(
-                    _.filter(this.fjPermissionsRolePermissions, {
-                        role_id: this.fjPermissionsRole.id,
-                        permission_id: permission.id
-                    })
-                ) > 0
-            );
-        },
-        getPermission(operation) {
-            for(let id in this.fjPermissionsPermissions) {
-                let permission = this.fjPermissionsPermissions[id]
-                if(permission.name == `${operation} ${this.group}`) {
-                    return permission
-                }
-            }
-        }
-    },
-    computed: {
-        ...mapGetters([
-            'fjPermissionsOperations',
-            'fjPermissionsRole',
-            'fjPermissionsPermissions',
-            'fjPermissionsRolePermissions'
-        ]),
-        group() {
-            return this.item.name.split(' ').slice(1).join(' ')
-        },
-    }
-}
+			if (!permission) {
+				return false;
+			}
+			return (
+				_.size(
+					_.filter(this.fjPermissionsRolePermissions, {
+						role_id: this.fjPermissionsRole.id,
+						permission_id: permission.id
+					})
+				) > 0
+			);
+		},
+		getPermission(operation) {
+			for (let id in this.fjPermissionsPermissions) {
+				let permission = this.fjPermissionsPermissions[id];
+				if (permission.name == `${operation} ${this.group}`) {
+					return permission;
+				}
+			}
+		}
+	},
+	computed: {
+		...mapGetters([
+			'fjPermissionsOperations',
+			'fjPermissionsRole',
+			'fjPermissionsPermissions',
+			'fjPermissionsRolePermissions'
+		]),
+		group() {
+			return this.item.name
+				.split(' ')
+				.slice(1)
+				.join(' ');
+		}
+	}
+};
 </script>

@@ -2,20 +2,43 @@
 
 namespace AwStudio\FjordPermissions\Vue\Extensions;
 
+use Spatie\Permission\Models\Role;
+use AwStudio\Fjord\Fjord\Models\FjordUser;
 use AwStudio\Fjord\Application\Vue\Extension;
 
 class UsersExtension extends Extension
 {
     /**
-     * Modify props in handle method.
+     * Has user permission for this extension.
      * 
-     * @var array $props
-     * @return array $props
+     * @var \AwStudio\Fjord\Fjord\Models\FjordUser $user
+     * @return boolean
      */
-    public function handle($props)
+    public function authenticate(FjordUser $user)
     {
-        $props['config']['globalActions'] []= 'fj-permissions-apply-to-users';
+        return $user->can('read user-roles');
+    }
 
-        return $props;
+    /**
+     * Modify component in handle method.
+     * 
+     * @var array $component
+     * @return void
+     */
+    public function handle($component)
+    {
+        //$component->addGlobalAction('fj-permissions-apply-to-users');
+
+        if (fjord_user()->can('update user-roles')) {
+            $component->addRecordAction('fj-permissions-apply-to-user');
+        }
+
+        $component->addProp('roles', Role::all());
+
+        $component->addTableColumn([
+            'label' => __f('fj.role'),
+            'key' => '',
+            'component' => 'fj-permissions-users-permission',
+        ]);
     }
 }

@@ -29,7 +29,14 @@ class Package extends FjordPackage
      * 
      * @var array
      */
-    protected $configHandler = [
-        'table' => \AwStudio\FjordPermissions\Config\TableConfig::class
+    protected $configHandler = [];
+
+    /**
+     * List of extensions for other packages.
+     *
+     * @var array
+     */
+    protected $extensions = [
+        'fj-users' => \AwStudio\FjordPermissions\Vue\Extensions\UsersExtension::class
     ];
 }

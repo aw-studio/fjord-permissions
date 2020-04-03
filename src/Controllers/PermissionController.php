@@ -12,13 +12,45 @@ use AwStudio\FjordPermissions\Requests\UpdateRolePermissionRequest;
 use AwStudio\FjordPermissions\Requests\IndexRolePermissionRequest;
 use AwStudio\Fjord\Support\IndexTable;
 use AwStudio\Fjord\Support\Facades\Package;
+use AwStudio\Fjord\Fjord\Models\FjordUser;
 
 class PermissionController extends Controller
 {
+    public function assignRoleToUser(Request $request, $user_id)
+    {
+        $user = FjordUser::findOrFail($user_id);
+
+        $newRole = Role::findOrFail($request->role_id);
+
+        // Fjord User can only have one role.
+        foreach ($user->roles as $oldRole) {
+            $user->removeRole($oldRole);
+        }
+
+        $user->assignRole($newRole);
+    }
+
     public function index(IndexRolePermissionRequest $request)
     {
-        $config = Package::config('aw-studio/fjord-permissions', 'table');
-        $config = Package::get('aw-studio/fjord-permissions')->config('table');
+        $config = [
+            'cols' => [
+                [
+                    'key' => '{name}',
+                    'label' => 'Name'
+                ],
+                [
+                    'key' => '{email}',
+                    'label' => 'E-Mail'
+                ],
+            ],
+            'recordActions' => [],
+            'globalActions' => [''],
+            'sortBy' => [
+                'id.desc' => 'New -> Old',
+                'id.asc' => 'Old -> New'
+            ],
+            'sortByDefault' => 'id.desc',
+        ];
 
         return view('fjord::app')->withComponent('fjord-permissions')
             ->withTitle('Permissions')
@@ -34,7 +66,7 @@ class PermissionController extends Controller
     protected function getUniqueOperations()
     {
         $names = Permission::select('name')->pluck('name');
-        return $names->map(function($name) {
+        return $names->map(function ($name) {
             return explode(' ', $name)[0];
         })->unique();
     }
@@ -49,17 +81,17 @@ class PermissionController extends Controller
             ]
         ];
 
-        foreach($this->getUniqueOperations() as $operation) {
-            $cols []= [
+        foreach ($this->getUniqueOperations() as $operation) {
+            $cols[] = [
                 'key' => $operation,
-                'label' => ucfirst($operation),
+                'label' => ucfirst(__f("fj.operations.{$operation}")),
                 'component' => 'fjord-permissions-toggle',
             ];
         }
 
-        $cols []= [
+        $cols[] = [
             'key' => '',
-            'label' => 'Toggle All',
+            'label' => ucfirst(__f('fj.toggle_all')),
             'component' => 'fjord-permissions-toggle-all',
         ];
 
@@ -68,11 +100,14 @@ class PermissionController extends Controller
 
     public function fetchIndex(Request $request)
     {
-        $data = IndexTable::get(Permission::query(), $request);
+        $data = with(new IndexTable(Permission::query(), $request))->except(['paginate'])->items();
 
-        $data['unique_items'] = $data['items']->unique(function($item) {
-            $name = str_replace($this->getUniqueOperations()->toArray(), '',$item->name);
+        $data['unique_items'] = $data['items']->unique(function ($item) {
+            $name = str_replace($this->getUniqueOperations()->toArray(), '', $item->name);
             return Str::replaceFirst(' ', '', $name);
+        })->filter(function ($item) {
+            // Dont show role-permissions.
+            return !Str::endsWith($item->name, 'role-permissions');
         });
         $data['count'] = $data['unique_items']->count();
 
