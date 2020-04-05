@@ -1,6 +1,6 @@
 <?php
 
-namespace AwStudio\FjordPermissions\Models;
+namespace FjordPermissions\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,18 +1,18 @@
 <?php
 
-namespace AwStudio\FjordPermissions\Controllers;
+namespace FjordPermissions\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use AwStudio\FjordPermissions\Models\RolePermission;
-use AwStudio\FjordPermissions\Requests\UpdateRolePermissionRequest;
-use AwStudio\FjordPermissions\Requests\IndexRolePermissionRequest;
-use AwStudio\Fjord\Support\IndexTable;
-use AwStudio\Fjord\Support\Facades\Package;
-use AwStudio\Fjord\Fjord\Models\FjordUser;
+use FjordPermissions\Models\RolePermission;
+use FjordPermissions\Requests\UpdateRolePermissionRequest;
+use FjordPermissions\Requests\IndexRolePermissionRequest;
+use Fjord\Support\IndexTable;
+use Fjord\Support\Facades\Package;
+use Fjord\Fjord\Models\FjordUser;
 
 class PermissionController extends Controller
 {

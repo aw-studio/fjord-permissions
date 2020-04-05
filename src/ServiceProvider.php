@@ -1,10 +1,10 @@
 <?php
 
-namespace AwStudio\FjordPermissions;
+namespace FjordPermissions;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use AwStudio\FjordPermissions\Composer\PermissionsComposer;
+use FjordPermissions\Composer\PermissionsComposer;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -28,6 +28,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->register('AwStudio\FjordPermissions\RouteServiceProvider');
+        $this->app->register('FjordPermissions\RouteServiceProvider');
     }
 }

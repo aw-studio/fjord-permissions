@@ -1,17 +1,17 @@
 <?php
 
-namespace AwStudio\FjordPermissions\Vue\Extensions;
+namespace FjordPermissions\Vue\Extensions;
 
 use Spatie\Permission\Models\Role;
-use AwStudio\Fjord\Fjord\Models\FjordUser;
-use AwStudio\Fjord\Application\Vue\Extension;
+use Fjord\Fjord\Models\FjordUser;
+use Fjord\Application\Vue\Extension;
 
 class UsersExtension extends Extension
 {
     /**
      * Has user permission for this extension.
      * 
-     * @var \AwStudio\Fjord\Fjord\Models\FjordUser $user
+     * @var \Fjord\Fjord\Models\FjordUser $user
      * @return boolean
      */
     public function authenticate(FjordUser $user)

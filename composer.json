@@ -1,32 +1,32 @@
 {
-    "name": "aw-studio/fjord-permissions",
-    "description": "Fjord: A Laravel CMS/Admin-Panel",
-    "type": "project",
-    "require": {
-        "php": "^7.2"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jannes Behrens",
-            "email": "jannes@aw-studio.de"
-        },
-        {
-            "name": "Lennart Carstens-Behrens",
-            "email": "lennart.carbe@gmail.com"
-        }
-    ],
-    "autoload": {
-        "files": [
-            "src/Support/helpers.php"
-        ],
-        "psr-4": {
-            "AwStudio\\FjordPermissions\\": "src"
-        }
-    },
-    "extra": {
-        "fjord": {
-            "package": "AwStudio\\FjordPermissions\\Package"
-        }
-    }
+	"name": "aw-studio/fjord-permissions",
+	"description": "Fjord: A Laravel CMS/Admin-Panel",
+	"type": "project",
+	"require": {
+		"php": "^7.2"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Jannes Behrens",
+			"email": "jannes@aw-studio.de"
+		},
+		{
+			"name": "Lennart Carstens-Behrens",
+			"email": "lennart.carbe@gmail.com"
+		}
+	],
+	"autoload": {
+		"files": [
+			"src/Support/helpers.php"
+		],
+		"psr-4": {
+			"FjordPermissions\\": "src"
+		}
+	},
+	"extra": {
+		"fjord": {
+			"package": "FjordPermissions\\Package"
+		}
+	}
 }

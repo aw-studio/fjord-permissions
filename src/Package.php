@@ -1,8 +1,8 @@
 <?php
 
-namespace AwStudio\FjordPermissions;
+namespace FjordPermissions;
 
-use AwStudio\Fjord\Application\Package\FjordPackage;
+use Fjord\Application\Package\FjordPackage;
 
 class Package extends FjordPackage
 {
@@ -12,7 +12,7 @@ class Package extends FjordPackage
      * @var array
      */
     protected $providers = [
-        \AwStudio\FjordPermissions\ServiceProvider::class
+        \FjordPermissions\ServiceProvider::class
     ];
 
     /**
@@ -37,6 +37,6 @@ class Package extends FjordPackage
      * @var array
      */
     protected $extensions = [
-        'fj-users' => \AwStudio\FjordPermissions\Vue\Extensions\UsersExtension::class
+        'fj-users' => \FjordPermissions\Vue\Extensions\UsersExtension::class
     ];
 }

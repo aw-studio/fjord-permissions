@@ -1,12 +1,12 @@
 <?php
 
-namespace AwStudio\FjordPermissions;
+namespace FjordPermissions;
 
 use Illuminate\Support\Facades\Route;
-use AwStudio\Fjord\Support\Facades\Fjord;
-use AwStudio\Fjord\Support\Facades\Package;
+use Fjord\Support\Facades\Fjord;
+use Fjord\Support\Facades\Package;
 use App\Providers\RouteServiceProvider as LaravelRouteServiceProvider;
-use AwStudio\FjordPermissions\Controllers\PermissionController;
+use FjordPermissions\Controllers\PermissionController;
 
 class RouteServiceProvider extends LaravelRouteServiceProvider
 {

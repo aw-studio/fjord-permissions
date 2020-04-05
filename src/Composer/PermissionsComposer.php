@@ -1,9 +1,8 @@
 <?php
 
-namespace AwStudio\FjordPermissions\Composer;
+namespace FjordPermissions\Composer;
 
 use Illuminate\View\View;
-use AwStudio\Fjord\Fjord\Application\Application;
 
 class PermissionsComposer
 {
@@ -15,7 +14,10 @@ class PermissionsComposer
      */
     public function compose(View $view)
     {
-        $view->with('permissions', $this->getPermissions());
+        fjord()
+            ->app()
+            ->get('vue')
+            ->setProp('permissions', $this->getPermissions());
     }
 
     /**
@@ -26,7 +28,7 @@ class PermissionsComposer
     protected function getPermissions()
     {
         $permissions = collect([]);
-        foreach(auth()->user()->roles ?? [] as $role) {
+        foreach (auth()->user()->roles ?? [] as $role) {
             $permissions = $permissions->merge(
                 $role->permissions->pluck('name')
             );

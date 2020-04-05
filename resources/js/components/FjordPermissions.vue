@@ -74,9 +74,12 @@ export default {
 
 		for (let i = 0; i < this.roles.length; i++) {
 			let role = this.roles[i];
+			let tKey = `roles.${role.name}`;
 			this.roleNames.push({
 				id: role.id,
-				title: this.$t(`roles.${role.name}`).toString()
+				title: this.$te(tKey)
+					? this.$t(tKey).toString()
+					: role.name.capitalize()
 			});
 		}
 
