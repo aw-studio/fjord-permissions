@@ -3,34 +3,17 @@
 namespace FjordPermissions\Controllers;
 
 use Illuminate\Support\Str;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Fjord\Support\IndexTable;
+use Illuminate\Routing\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use FjordPermissions\Models\RolePermission;
-use FjordPermissions\Requests\UpdateRolePermissionRequest;
-use FjordPermissions\Requests\IndexRolePermissionRequest;
-use Fjord\Support\IndexTable;
-use Fjord\Support\Facades\Package;
-use Fjord\Fjord\Models\FjordUser;
+use FjordPermissions\Requests\RolePermission\ReadRolePermissionRequest;
 
 class PermissionController extends Controller
 {
-    public function assignRoleToUser(Request $request, $user_id)
-    {
-        $user = FjordUser::findOrFail($user_id);
-
-        $newRole = Role::findOrFail($request->role_id);
-
-        // Fjord User can only have one role.
-        foreach ($user->roles as $oldRole) {
-            $user->removeRole($oldRole);
-        }
-
-        $user->assignRole($newRole);
-    }
-
-    public function index(IndexRolePermissionRequest $request)
+    public function index(ReadRolePermissionRequest $request)
     {
         $config = [
             'cols' => [
@@ -52,7 +35,7 @@ class PermissionController extends Controller
             'sortByDefault' => 'id.desc',
         ];
 
-        return view('fjord::app')->withComponent('fjord-permissions')
+        return view('fjord::app')->withComponent('fj-permissions-permissions')
             ->withTitle('Permissions')
             ->withProps([
                 'cols' => $this->getCols(),
@@ -77,7 +60,7 @@ class PermissionController extends Controller
             [
                 'key' => '{name}',
                 'label' => 'Name',
-                'component' => 'fjord-permissions-show-name'
+                'component' => 'fj-permissions-index-group-name'
             ]
         ];
 
@@ -85,20 +68,20 @@ class PermissionController extends Controller
             $cols[] = [
                 'key' => $operation,
                 'label' => ucfirst(__f("fj.operations.{$operation}")),
-                'component' => 'fjord-permissions-toggle',
+                'component' => 'fj-permissions-toggle',
             ];
         }
 
         $cols[] = [
             'key' => '',
             'label' => ucfirst(__f('fj.toggle_all')),
-            'component' => 'fjord-permissions-toggle-all',
+            'component' => 'fj-permissions-toggle-all',
         ];
 
         return $cols;
     }
 
-    public function fetchIndex(Request $request)
+    public function fetchIndex(ReadRolePermissionRequest $request)
     {
         $data = with(new IndexTable(Permission::query(), $request))->except(['paginate'])->items();
 
@@ -112,20 +95,5 @@ class PermissionController extends Controller
         $data['count'] = $data['unique_items']->count();
 
         return $data;
-    }
-
-    public function update(UpdateRolePermissionRequest $request)
-    {
-        $role = Role::findOrFail($request->role['id']);
-
-        if ($role->hasPermissionTo($request->permission)) {
-            $role->revokePermissionTo($request->permission);
-        } else {
-            $role->givePermissionTo($request->permission);
-        }
-
-        \Cache::forget('spatie.permission.cache');
-
-        return RolePermission::all();
     }
 }

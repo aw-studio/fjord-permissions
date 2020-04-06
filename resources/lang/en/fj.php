@@ -2,7 +2,7 @@
 
 return [
     "role" => 'Role',
-    "add_role" => 'Add Role',
+    "enter_rolename" => "Enter Role name.",
     "all_permission_updated" => "Permissions updated: {operation}",
     "permission_updated" => "Permission updated: {operation} {group}",
     "permissions" => 'Permissions',

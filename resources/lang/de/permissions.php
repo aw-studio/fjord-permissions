@@ -2,7 +2,7 @@
 
 return [
     "users" => "Benutzer",
-    "user-roles" => 'Benutzer Rollen',
-    "role-permissions" => "Rollen Berechtigungen",
+    "fjord-user-roles" => 'Benutzer Rollen',
+    "fjord-role-permissions" => "Rollen Berechtigungen",
     "fjord-users" => "Fjord Benutzer",
 ];

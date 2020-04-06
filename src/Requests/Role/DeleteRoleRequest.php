@@ -1,10 +1,10 @@
 <?php
 
-namespace FjordPermissions\Requests;
+namespace FjordPermissions\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRolePermissionRequest extends FormRequest
+class DeleteRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateRolePermissionRequest extends FormRequest
      */
     public function authorize()
     {
-        return fjord_user()->can('update role-permissions');
+        return fjord_user()->can('create fjord-user-roles');
     }
 
     /**
@@ -23,8 +23,6 @@ class UpdateRolePermissionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return [];
     }
 }

@@ -2,7 +2,7 @@
 
 return [
     "users" => "User",
-    "user-roles" => 'User Roles',
-    "role-permissions" => "Role Permissions",
+    "fjord-user-roles" => 'User Roles',
+    "fjord-role-permissions" => "Role Permissions",
     "fjord-users" => "Fjord Users",
 ];

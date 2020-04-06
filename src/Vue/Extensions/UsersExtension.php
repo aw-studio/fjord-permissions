@@ -16,7 +16,7 @@ class UsersExtension extends Extension
      */
     public function authenticate(FjordUser $user)
     {
-        return $user->can('read user-roles');
+        return $user->can('read fjord-user-roles');
     }
 
     /**
@@ -27,10 +27,8 @@ class UsersExtension extends Extension
      */
     public function handle($component)
     {
-        //$component->addGlobalAction('fj-permissions-apply-to-users');
-
-        if (fjord_user()->can('update user-roles')) {
-            $component->addRecordAction('fj-permissions-apply-to-user');
+        if (fjord_user()->can('update fjord-user-roles')) {
+            $component->addRecordAction('fj-permissions-fjord-users-apply-role');
         }
 
         $component->addProp('roles', Role::all());
@@ -38,7 +36,7 @@ class UsersExtension extends Extension
         $component->addTableColumn([
             'label' => __f('fj.role'),
             'key' => '',
-            'component' => 'fj-permissions-users-permission',
+            'component' => 'fj-permissions-fjord-users-role-name',
         ]);
     }
 }

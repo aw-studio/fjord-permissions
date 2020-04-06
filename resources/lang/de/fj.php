@@ -2,7 +2,7 @@
 
 return [
     "role" => 'Rolle',
-    "add_role" => 'Rolle Hinzufügen',
+    "enter_rolename" => "Rollen namen eingeben",
     "all_permission_updated" => "Berechtigungen geändert: {group}",
     "permission_updated" => "Berechtigung geändert: {group} {operation}",
     "permissions" => 'Berechtigungen',

@@ -4,24 +4,24 @@
     </span>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
-    name: 'FjordPermissionsShowName',
+    name: 'IndexGroupName',
     props: {
         item: {
             required: true,
-            type: [Object, Array]
+            type: [Object, Array],
         },
         col: {
             required: true,
-            type: Object
-        }
+            type: Object,
+        },
     },
     computed: {
         group() {
-            return this.item.name.split(' ').slice(1).join(' ')
+            return this.item.name.split(' ').slice(1).join(' ');
         },
-    }
-}
+    },
+};
 </script>
