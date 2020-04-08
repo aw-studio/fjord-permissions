@@ -16,16 +16,6 @@ class PermissionController extends Controller
     public function index(ReadRolePermissionRequest $request)
     {
         $config = [
-            'cols' => [
-                [
-                    'key' => '{name}',
-                    'label' => 'Name'
-                ],
-                [
-                    'key' => '{email}',
-                    'label' => 'E-Mail'
-                ],
-            ],
             'recordActions' => [],
             'globalActions' => [''],
             'sortBy' => [

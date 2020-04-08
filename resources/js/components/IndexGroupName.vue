@@ -1,6 +1,10 @@
 <template>
     <span>
-        {{ $t(`permissions.${group}`) }}
+        {{
+            this.$te(`permissions.${group}`)
+                ? this.$t(`permissions.${group}`)
+                : group.capitalize()
+        }}
     </span>
 </template>
 <script>
@@ -11,17 +15,20 @@ export default {
     props: {
         item: {
             required: true,
-            type: [Object, Array],
+            type: [Object, Array]
         },
         col: {
             required: true,
-            type: Object,
-        },
+            type: Object
+        }
     },
     computed: {
         group() {
-            return this.item.name.split(' ').slice(1).join(' ');
-        },
-    },
+            return this.item.name
+                .split(' ')
+                .slice(1)
+                .join(' ');
+        }
+    }
 };
 </script>
