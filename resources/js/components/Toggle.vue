@@ -4,7 +4,7 @@
             v-model="checked"
             name="check-button"
             @change="
-                (val) => {
+                val => {
                     this.change(val, true);
                 }
             "
@@ -21,16 +21,16 @@ export default {
     props: {
         item: {
             required: true,
-            type: [Object, Array],
+            type: [Object, Array]
         },
         col: {
             required: true,
-            type: Object,
-        },
+            type: Object
+        }
     },
     data() {
         return {
-            checked: false,
+            checked: false
         };
     },
     beforeMount() {
@@ -42,7 +42,7 @@ export default {
         async change(val, log) {
             let payload = {
                 role: this.fjPermissionsRole,
-                permission: this.permission.id,
+                permission: this.permission.id
             };
 
             let response = await axios.put('role_permissions', payload);
@@ -58,10 +58,12 @@ export default {
             this.$bvToast.toast(
                 this.$t('fj.permission_updated', {
                     operation: this.$t(`fj.${this.operation}`),
-                    group: this.$t(`permissions.${this.group}`),
+                    group: this.$te(`permissions.${this.group}`)
+                        ? this.$t(`permissions.${this.group}`).toString()
+                        : this.group.capitalize()
                 }),
                 {
-                    variant: 'success',
+                    variant: 'success'
                 }
             );
         },
@@ -89,20 +91,23 @@ export default {
                 _.size(
                     _.filter(this.fjPermissionsRolePermissions, {
                         role_id: this.fjPermissionsRole.id,
-                        permission_id: this.permission.id,
+                        permission_id: this.permission.id
                     })
                 ) > 0
             );
-        },
+        }
     },
     computed: {
         ...mapGetters([
             'fjPermissionsRole',
             'fjPermissionsPermissions',
-            'fjPermissionsRolePermissions',
+            'fjPermissionsRolePermissions'
         ]),
         group() {
-            return this.item.name.split(' ').slice(1).join(' ');
+            return this.item.name
+                .split(' ')
+                .slice(1)
+                .join(' ');
         },
         permissionName() {
             return `${this.operation} ${this.group}`;
@@ -117,7 +122,7 @@ export default {
                     return permission;
                 }
             }
-        },
-    },
+        }
+    }
 };
 </script>

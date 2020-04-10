@@ -14,7 +14,7 @@
                     :items="permissions"
                     :count="count"
                     :loadItems="loadPermissions"
-                    :searchKeys="['name']"
+                    :searchKeys="config.search"
                     :nameSingular="$t('fj.permissions')"
                     :namePlural="$t('fj.permissions')"
                     :sortBy="config.sortBy"
@@ -45,25 +45,25 @@ export default {
     props: {
         cols: {
             type: Array,
-            required: true,
+            required: true
         },
         operations: {
             type: Array,
-            required: true,
+            required: true
         },
         roles: {
-            type: Array,
+            type: Array
         },
         role_permissions: {
-            type: Array,
+            type: Array
         },
         buttons: {
-            type: Array,
+            type: Array
         },
         config: {
             type: Object,
-            required: true,
-        },
+            required: true
+        }
     },
     data() {
         return {
@@ -72,10 +72,10 @@ export default {
             permissions: [],
             roleNames: [],
             update: {
-                updater: null,
+                updater: null
             },
             roles_permissions: {},
-            crud: ['Create', 'Read', 'Update', 'Delete'],
+            crud: ['Create', 'Read', 'Update', 'Delete']
         };
     },
     beforeMount() {
@@ -111,7 +111,7 @@ export default {
                 }
             }
             return ids;
-        },
+        }
     },
     methods: {
         addRole(role) {
@@ -140,7 +140,7 @@ export default {
                     id: role.id,
                     title: this.$te(tKey)
                         ? this.$t(tKey).toString()
-                        : role.name.capitalize(),
+                        : role.name.capitalize()
                 });
             }
         },
@@ -165,7 +165,7 @@ export default {
                 'SET_FJ_PERMISSIONS_PERMISSIONS',
                 response.data.items
             );
-        },
-    },
+        }
+    }
 };
 </script>

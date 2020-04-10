@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Fjord\Support\IndexTable;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use FjordPermissions\Models\RolePermission;
@@ -19,10 +20,11 @@ class PermissionController extends Controller
             'recordActions' => [],
             'globalActions' => [''],
             'sortBy' => [
-                'id.desc' => 'New -> Old',
-                'id.asc' => 'Old -> New'
+                'id.desc' => __f('fj.sort_new_to_old'),
+                'id.asc' => __f('fj.sort_old_to_new'),
             ],
             'sortByDefault' => 'id.desc',
+            'search' => ['name'],
         ];
 
         return view('fjord::app')->withComponent('fj-permissions-permissions')
@@ -48,8 +50,8 @@ class PermissionController extends Controller
     {
         $cols = [
             [
-                'key' => '{name}',
-                'label' => 'Name',
+                'sort_by' => 'permission_group',
+                'label' => 'Group',
                 'component' => 'fj-permissions-index-group-name'
             ]
         ];
@@ -73,15 +75,16 @@ class PermissionController extends Controller
 
     public function fetchIndex(ReadRolePermissionRequest $request)
     {
-        $data = with(new IndexTable(Permission::query(), $request))->except(['paginate'])->items();
+        $query = Permission::select([
+            '*',
+            DB::raw("SUBSTRING_INDEX(name, ' ', 1) AS operation"),
+            DB::raw("SUBSTRING_INDEX(name, ' ', -1) AS permission_group"),
+        ])->whereRaw("SUBSTRING_INDEX(name, ' ', -1) != 'fjord-role-permissions'");
 
-        $data['unique_items'] = $data['items']->unique(function ($item) {
-            $name = str_replace($this->getUniqueOperations()->toArray(), '', $item->name);
-            return Str::replaceFirst(' ', '', $name);
-        })->filter(function ($item) {
-            // Dont show role-permissions.
-            return !Str::endsWith($item->name, 'role-permissions');
-        });
+        $data = with(new IndexTable($query, $request))->except(['paginate'])->items();
+
+        $data['unique_items'] = $data['items']->unique('permission_group');
+
         $data['count'] = $data['unique_items']->count();
 
         return $data;
