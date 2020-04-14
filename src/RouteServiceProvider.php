@@ -6,7 +6,7 @@ use Fjord\Support\Facades\Package;
 use FjordPermissions\Controllers\RoleController;
 use FjordPermissions\Controllers\PermissionController;
 use FjordPermissions\Controllers\RolePermissionController;
-use App\Providers\RouteServiceProvider as LaravelRouteServiceProvider;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as LaravelRouteServiceProvider;
 
 class RouteServiceProvider extends LaravelRouteServiceProvider
 {
