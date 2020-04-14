@@ -1,3 +1,3 @@
 # fjord-permissions
 
-Fjord Permissions.
+Fjord Permissions
