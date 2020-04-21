@@ -2,8 +2,6 @@
 
 namespace FjordPermissions\Controllers;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Fjord\Support\IndexTable;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +50,7 @@ class PermissionController extends Controller
             [
                 'sort_by' => 'permission_group',
                 'label' => 'Group',
-                'component' => 'fj-permissions-index-group-name'
+                'component' => ['name' => 'fj-permissions-index-group-name']
             ]
         ];
 
@@ -60,14 +58,14 @@ class PermissionController extends Controller
             $cols[] = [
                 'key' => $operation,
                 'label' => ucfirst(__f("fj.operations.{$operation}")),
-                'component' => 'fj-permissions-toggle',
+                'component' => ['name' => 'fj-permissions-toggle'],
             ];
         }
 
         $cols[] = [
             'key' => '',
             'label' => ucfirst(__f('fj.toggle_all')),
-            'component' => 'fj-permissions-toggle-all',
+            'component' => ['name' => 'fj-permissions-toggle-all'],
         ];
 
         return $cols;

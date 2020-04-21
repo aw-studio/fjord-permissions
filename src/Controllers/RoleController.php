@@ -3,7 +3,7 @@
 namespace FjordPermissions\Controllers;
 
 use Illuminate\Http\Request;
-use Fjord\Fjord\Models\FjordUser;
+use Fjord\User\Models\FjordUser;
 use Spatie\Permission\Models\Role;
 use FjordPermissions\Requests\Role\CreateRoleRequest;
 use FjordPermissions\Requests\Role\DeleteRoleRequest;

@@ -3,8 +3,9 @@
 namespace FjordPermissions;
 
 use Illuminate\Routing\Router;
-use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use Fjord\Support\Facades\FjordLang;
 use FjordPermissions\Composer\PermissionsComposer;
+use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -15,7 +16,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot(Router $router)
     {
-        fjord()->addLangPath(fjord_permissions_path('resources/lang'));
+        FjordLang::addPath(fjord_permissions_path('resources/lang'));
 
         fjord()->composer(PermissionsComposer::class);
     }
