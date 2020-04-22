@@ -3,6 +3,7 @@
 namespace FjordPermissions\Controllers;
 
 use Fjord\Support\IndexTable;
+use Fjord\Vue\Table;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -46,29 +47,22 @@ class PermissionController extends Controller
 
     protected function getCols()
     {
-        $cols = [
-            [
-                'sort_by' => 'permission_group',
-                'label' => 'Group',
-                'component' => ['name' => 'fj-permissions-index-group-name']
-            ]
-        ];
+        $index = new Table;
+
+        $index->component('fj-permissions-index-group-name')
+            ->label('Group')
+            ->sortBy('permission_group');
 
         foreach ($this->getUniqueOperations() as $operation) {
-            $cols[] = [
-                'key' => $operation,
-                'label' => ucfirst(__f("fj.operations.{$operation}")),
-                'component' => ['name' => 'fj-permissions-toggle'],
-            ];
+            $index->component('fj-permissions-toggle')
+                ->prop('operation', $operation)
+                ->label(__f("fj.operations.{$operation}"));
         }
 
-        $cols[] = [
-            'key' => '',
-            'label' => ucfirst(__f('fj.toggle_all')),
-            'component' => ['name' => 'fj-permissions-toggle-all'],
-        ];
+        $index->component('fj-permissions-toggle-all')
+            ->label(ucfirst(__f('fj.toggle_all')));
 
-        return $cols;
+        return $index;
     }
 
     public function fetchIndex(ReadRolePermissionRequest $request)

@@ -26,6 +26,10 @@ export default {
         col: {
             required: true,
             type: Object
+        },
+        operation: {
+            type: String,
+            required: true
         }
     },
     data() {
@@ -111,9 +115,6 @@ export default {
         },
         permissionName() {
             return `${this.operation} ${this.group}`;
-        },
-        operation() {
-            return this.col.key;
         },
         permission() {
             for (let id in this.fjPermissionsPermissions) {
