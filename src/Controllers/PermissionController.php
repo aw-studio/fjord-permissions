@@ -13,6 +13,12 @@ use FjordPermissions\Requests\RolePermission\ReadRolePermissionRequest;
 
 class PermissionController extends Controller
 {
+    /**
+     * Show index.
+     *
+     * @param ReadRolePermissionRequest $request
+     * @return View
+     */
     public function index(ReadRolePermissionRequest $request)
     {
         $config = [
@@ -37,6 +43,11 @@ class PermissionController extends Controller
             ]);
     }
 
+    /**
+     * Get unique operations.
+     *
+     * @return Collection
+     */
     protected function getUniqueOperations()
     {
         $names = Permission::select('name')->pluck('name');
@@ -45,6 +56,11 @@ class PermissionController extends Controller
         })->unique();
     }
 
+    /**
+     * Get table columns.
+     *
+     * @return Table
+     */
     protected function getCols()
     {
         $index = new Table;
@@ -60,11 +76,18 @@ class PermissionController extends Controller
         }
 
         $index->component('fj-permissions-toggle-all')
-            ->label(ucfirst(__f('fj.toggle_all')));
+            ->label(ucfirst(__f('fj.toggle_all')))
+            ->small();
 
         return $index;
     }
 
+    /**
+     * Fetch index.
+     *
+     * @param ReadRolePermissionRequest $request
+     * @return void
+     */
     public function fetchIndex(ReadRolePermissionRequest $request)
     {
         $query = Permission::select([

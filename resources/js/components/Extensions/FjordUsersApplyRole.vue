@@ -40,9 +40,9 @@ export default {
     },
     methods: {
         async assignRole(role) {
-            let response = await axios.post(`user/${this.item.id}/role`, {
-                role_id: role.id
-            });
+            let response = await axios.post(
+                `fjord-user/${this.item.id}/role/${role.id}`
+            );
 
             this.$bvToast.toast(
                 this.$t('fj.role_assigned', {

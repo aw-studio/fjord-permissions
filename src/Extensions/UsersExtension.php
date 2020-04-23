@@ -43,12 +43,12 @@ class UsersExtension extends Extension
      */
     public function index(Table $table)
     {
-        $table->component('fj-permissions-fjord-users-role-name')
-            ->label(__f('fj.role'));
+        $table->component('fj-permissions-fjord-users-roles')
+            ->label(__f('fj.roles'));
 
         if (fjord_user()->can('update fjord-user-roles')) {
             $table->component('fj-permissions-fjord-users-apply-role')
-                ->label('abc')
+                ->label('')
                 ->small();
         }
     }

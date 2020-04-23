@@ -13,12 +13,12 @@ export default {
     props: {
         item: {
             required: true,
-            type: [Object, Array],
+            type: [Object, Array]
         },
         col: {
             required: true,
-            type: Object,
-        },
+            type: Object
+        }
     },
     methods: {
         toggle() {
@@ -34,15 +34,17 @@ export default {
 
             this.$bus.$emit('fjPermissionsToggleAll', {
                 on,
-                group: this.group,
+                group: this.group
             });
 
             this.$bvToast.toast(
                 this.$t('fj.all_permission_updated', {
-                    group: this.$t(`permissions.${this.group}`),
+                    group: this.$te(`permissions.${this.group}`)
+                        ? this.$t(`permissions.${this.group}`)
+                        : this.group.capitalize()
                 }),
                 {
-                    variant: 'success',
+                    variant: 'success'
                 }
             );
         },
@@ -56,7 +58,7 @@ export default {
                 _.size(
                     _.filter(this.fjPermissionsRolePermissions, {
                         role_id: this.fjPermissionsRole.id,
-                        permission_id: permission.id,
+                        permission_id: permission.id
                     })
                 ) > 0
             );
@@ -68,18 +70,21 @@ export default {
                     return permission;
                 }
             }
-        },
+        }
     },
     computed: {
         ...mapGetters([
             'fjPermissionsOperations',
             'fjPermissionsRole',
             'fjPermissionsPermissions',
-            'fjPermissionsRolePermissions',
+            'fjPermissionsRolePermissions'
         ]),
         group() {
-            return this.item.name.split(' ').slice(1).join(' ');
-        },
-    },
+            return this.item.name
+                .split(' ')
+                .slice(1)
+                .join(' ');
+        }
+    }
 };
 </script>

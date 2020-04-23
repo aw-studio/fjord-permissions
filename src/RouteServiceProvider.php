@@ -47,8 +47,12 @@ class RouteServiceProvider extends LaravelRouteServiceProvider
             ->name('permissions');
 
         $this->package->route()
-            ->post('/user/{user_id}/role', RoleController::class . '@assignRoleToUser')
+            ->post('/fjord-user/{user_id}/role/{role_id}', RoleController::class . '@assignRoleToUser')
             ->name('role.assign');
+
+        $this->package->route()
+            ->delete('/fjord-user/{user_id}/role/{role_id}', RoleController::class . '@removeRoleFromUser')
+            ->name('role.remove');
 
         $this->package->route()
             ->post('/role', RoleController::class . '@store')

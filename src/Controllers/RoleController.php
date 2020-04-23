@@ -18,20 +18,48 @@ class RoleController
      * @param FjordUser $user_id
      * @return void
      */
-    public function assignRoleToUser(UpdateRoleRequest $request, $user_id)
+    public function assignRoleToUser(UpdateRoleRequest $request, $user_id, $role_id)
     {
         $user = FjordUser::findOrFail($user_id);
 
-        $newRole = Role::findOrFail($request->role_id);
+        $role = Role::findOrFail($role_id);
 
-        // Fjord User can only have one role.
-        foreach ($user->roles as $oldRole) {
-            $user->removeRole($oldRole);
-        }
-
-        $user->assignRole($newRole);
+        $user->assignRole($role);
     }
 
+    /**
+     * Remove role to from fjord-user.
+     *
+     * @param Request $request
+     * @param FjordUser $user_id
+     * @return void
+     */
+    public function removeRoleFromUser(UpdateRoleRequest $request, $user_id, $role_id)
+    {
+        $user = FjordUser::findOrFail($user_id);
+
+        $role = $user->roles()->findOrFail($role_id);
+
+        // Can't take away own admin role.
+        if ($role->name == 'admin' && $user->id == fjord_user()->id) {
+            return response()->json(['message' => __f('fjpermissions.cant_remove_admin_role'), 'variant' => 'danger', 405]);
+        }
+
+        // Remove role.
+        $user->removeRole($role);
+
+        // Apply user role if user has no roles.
+        if ($user->roles()->count() == 0) {
+            $user->assignRole(Role::where('name', 'user')->first());
+        }
+    }
+
+    /**
+     * Create new role.
+     *
+     * @param CreateRoleRequest $request
+     * @return Role
+     */
     public function store(CreateRoleRequest $request)
     {
         $role = new Role();
@@ -62,6 +90,10 @@ class RoleController
 
         // FjordUsers with the role to be deleted are assigned the role user.
         foreach ($role->users as $user) {
+            if ($user->roles()->count() > 1) {
+                continue;
+            }
+
             $user->assignRole('user');
         }
 
