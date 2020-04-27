@@ -14,6 +14,13 @@ use FjordPermissions\Requests\RolePermission\ReadRolePermissionRequest;
 class PermissionController extends Controller
 {
     /**
+     * Search keys.
+     *
+     * @var array
+     */
+    protected $search = ['name'];
+
+    /**
      * Show index.
      *
      * @param ReadRolePermissionRequest $request
@@ -29,7 +36,6 @@ class PermissionController extends Controller
                 'id.asc' => __f('fj.sort_old_to_new'),
             ],
             'sortByDefault' => 'id.desc',
-            'search' => ['name'],
         ];
 
         return view('fjord::app')->withComponent('fj-permissions-permissions')
@@ -96,7 +102,11 @@ class PermissionController extends Controller
             DB::raw("SUBSTRING_INDEX(name, ' ', -1) AS permission_group"),
         ])->whereRaw("SUBSTRING_INDEX(name, ' ', -1) != 'fjord-role-permissions'");
 
-        $data = with(new IndexTable($query, $request))->except(['paginate'])->items();
+        $data = IndexTable::query($query)
+            ->request($request)
+            ->search($this->search)
+            ->except(['paginate'])
+            ->get();
 
         $data['unique_items'] = $data['items']->unique('permission_group');
 
