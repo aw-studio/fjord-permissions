@@ -1,42 +1,44 @@
 <template>
-    <fj-base-container>
-        <fj-base-header :title="$t('fj.permissions')">
-            <div slot="actions-right">
-                <fj-permissions-role-create @created="addRole" />
-            </div>
-        </fj-base-header>
+    <fj-page>
+        <fj-container>
+            <fj-navigation>
+                <fj-permissions-role-create @created="addRole" slot="right" />
+            </fj-navigation>
+            <fj-header :title="$t('fj.permissions')" />
 
-        <b-row>
-            <b-col>
-                <fj-index-table
-                    :cols="cols"
-                    :tabs="roleNames"
-                    :items="permissions"
-                    :count="count"
-                    :loadItems="loadPermissions"
-                    :searchKeys="config.search"
-                    :nameSingular="$t('fj.permissions')"
-                    :namePlural="$t('fj.permissions')"
-                    :sortBy="config.sortBy"
-                    :sortByDefault="config.sortByDefault"
-                    :globalActions="config.globalActions"
-                >
-                    <template v-slot:header="{ tab }">
-                        <div class="mb-3 d-flex justify-content-between">
-                            <div></div>
-                            <div>
-                                <fj-permissions-role-delete
-                                    :tab="tab"
-                                    :cantDeleteRoleIds="cantDeleteRoleIds"
-                                    @deleted="removeRole(tab)"
-                                />
+            <b-row>
+                <b-col>
+                    <b-button variant="light">Hallo</b-button>
+                    <fj-index-table
+                        :cols="cols"
+                        :tabs="roleNames"
+                        :items="permissions"
+                        :count="count"
+                        :loadItems="loadPermissions"
+                        :searchKeys="config.search"
+                        :nameSingular="$t('fj.permissions')"
+                        :namePlural="$t('fj.permissions')"
+                        :sortBy="config.sortBy"
+                        :sortByDefault="config.sortByDefault"
+                        :globalActions="config.globalActions"
+                    >
+                        <template v-slot:header="{ tab }">
+                            <div class="mb-3 d-flex justify-content-between">
+                                <div></div>
+                                <div>
+                                    <fj-permissions-role-delete
+                                        :tab="tab"
+                                        :cantDeleteRoleIds="cantDeleteRoleIds"
+                                        @deleted="removeRole(tab)"
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </fj-index-table>
-            </b-col>
-        </b-row>
-    </fj-base-container>
+                        </template>
+                    </fj-index-table>
+                </b-col>
+            </b-row>
+        </fj-container>
+    </fj-page>
 </template>
 
 <script>

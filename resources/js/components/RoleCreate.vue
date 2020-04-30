@@ -1,5 +1,5 @@
 <template>
-    <b-button size="sm" variant="primary" @click="visible = true">
+    <b-button variant="primary" @click="visible = true">
         <fa-icon icon="plus" />
         {{ $t('fj.add_model', { model: $t('fj.role') }) }}
         <b-modal
@@ -46,7 +46,7 @@ export default {
             visible: false,
             name: '',
             busy: false,
-            errors: [],
+            errors: []
         };
     },
     methods: {
@@ -55,7 +55,7 @@ export default {
             let response = null;
             try {
                 response = await axios.post('/role', {
-                    name: this.name,
+                    name: this.name
                 });
             } catch (e) {
                 this.errors = e.response.data.errors;
@@ -69,10 +69,10 @@ export default {
 
             this.$bvToast.toast(
                 this.$t('fjpermissions.added_role', {
-                    role: role.name.capitalize(),
+                    role: role.name.capitalize()
                 }),
                 {
-                    variant: 'success',
+                    variant: 'success'
                 }
             );
             this.busy = false;
@@ -81,7 +81,7 @@ export default {
             if (this.errors.hasOwnProperty(key)) {
                 return this.errors[key].join(', ');
             }
-        },
+        }
     },
     computed: {
         nameState() {
@@ -89,7 +89,7 @@ export default {
         },
         nameErrorState() {
             return !this.errors.hasOwnProperty('name');
-        },
-    },
+        }
+    }
 };
 </script>
