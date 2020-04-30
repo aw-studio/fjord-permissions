@@ -15,5 +15,6 @@ export default {
     },
     beforeMount(app) {
         app.$store.commit('SET_PERMISSIONS', app.$attrs.permissions);
+        delete app.$attrs.permissions;
     }
 };
