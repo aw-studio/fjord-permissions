@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'group' => 'group',
     'cant_remove_admin_role' => 'You cannot remove the Admin role from your account.',
     'added_role' => 'Created Role {role}.',
     'deleted_role' => 'Deleted Role {role}.',

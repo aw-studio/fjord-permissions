@@ -72,7 +72,7 @@ class PermissionController extends Controller
         $index = new Table;
 
         $index->component('fj-permissions-index-group-name')
-            ->label('Group')
+            ->label(__f('fjpermissions.group'))
             ->sortBy('permission_group');
 
         foreach ($this->getUniqueOperations() as $operation) {
