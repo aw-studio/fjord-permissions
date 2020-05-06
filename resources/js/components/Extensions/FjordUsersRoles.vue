@@ -5,17 +5,11 @@
             @remove="removeRole(role)"
             :key="key"
             :variant="roleVariant(role)"
-            class="mr-1 text-white"
+            class="mr-1"
             v-bind:disabled="!can('update fjord-user-roles')"
         >
             {{ translateRole(role) }}
         </b-form-tag>
-        <!--
-        <span v-if="role != ''">
-
-            
-        </span>
-        -->
     </div>
 </template>
 <script>
@@ -69,7 +63,7 @@ export default {
                     return 'secondary';
                     break;
                 default:
-                    return 'success';
+                    return 'info';
                     break;
             }
         }

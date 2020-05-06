@@ -112,6 +112,9 @@ class PermissionController extends Controller
 
         $data['count'] = $data['unique_items']->count();
 
+        // Converting Object to array for component fj-index-table.
+        $data['unique_items'] = array_values($data['unique_items']->toArray());
+
         return $data;
     }
 }
