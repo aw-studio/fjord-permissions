@@ -29,27 +29,5 @@ class UsersExtension extends Extension
     public function handle($component)
     {
         $component->prop('roles', Role::all());
-
-        $component->index(function (Table $table) {
-            $this->index($table);
-        });
-    }
-
-    /**
-     * Extend User index table.
-     *
-     * @param Table $table
-     * @return void
-     */
-    public function index(Table $table)
-    {
-        $table->component('fj-permissions-fjord-users-roles')
-            ->label(__f('fj.roles'));
-
-        if (fjord_user()->can('update fjord-user-roles')) {
-            $table->component('fj-permissions-fjord-users-apply-role')
-                ->label('')
-                ->small();
-        }
     }
 }
