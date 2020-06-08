@@ -9,7 +9,7 @@ export default {
         permissions
     },
     extensions: {
-        ['fj-users'](app, props) {
+        ['fj-crud-index'](app, props) {
             app.$store.commit('SET_ROLES', props.roles);
         }
     },

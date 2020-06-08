@@ -37,6 +37,6 @@ class Package extends FjordPackage
      * @var array
      */
     protected $extensions = [
-        'fj-users' => \FjordPermissions\Extensions\UsersExtension::class
+        'fj-crud-index' => \FjordPermissions\Extensions\UsersExtension::class
     ];
 }
