@@ -27,13 +27,6 @@ class PermissionsComposer
      */
     protected function getPermissions()
     {
-        $permissions = collect([]);
-        foreach (auth()->user()->roles ?? [] as $role) {
-            $permissions = $permissions->merge(
-                $role->permissions->pluck('name')
-            );
-        }
-
-        return $permissions->unique();
+        return fjord_user()->getAllPermissions();
     }
 }
